@@ -1,8 +1,8 @@
-#H1 CPP_TOOLS
+# CPP_TOOLS
 
-#H2 This is a small toolchain for c++ that I have written for practice. It utilizes some standard library functions to re-implement basic data structures and algorithms for the purpose of learning.
+## This is a small toolchain for c++ that I have written for practice. It utilizes some standard library functions to re-implement basic data structures and algorithms for the purpose of learning.
 
-#H2 Some of the classes include:
+## Some of the classes include:
 1. Raw data structures for use with advanced interfaces
 ⋅⋅*Circular, growable array class based on std::vector.
 ⋅⋅*Doubly linked list class
