@@ -1,13 +1,12 @@
 #ifndef TREE_HPP
 #define TREE_HPP
 namespace tools {
-#include "entry_node.hpp"
+#include "node.hpp"
 
-template <typename K, typename V, int X>
+template <typename V, int X>
 class tree
 {
-    typedef entry_node<K,V,X> node;
-    node* root;
+    node<V,X>* root;
     int count;
 
 public:
