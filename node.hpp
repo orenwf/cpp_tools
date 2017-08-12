@@ -1,40 +1,74 @@
 // HEADER GUARD
 #ifndef NODE_HPP
 #define NODE_HPP
+
 #include <array>
+#include <exception>
+#include <iostream>
+
 namespace tools {
 
-template <typename V, int X>
+template <typename V, int N_DEGREE>
 class node
 {
-    int key;
     V value;
-    node<V,X>* parent;
-    std::array<node<V,X>*,X> children;
+    node<V,N_DEGREE>* parent;
+    std::array<node<V,N_DEGREE>*,N_DEGREE> children;
 
 public:
-    node(int k) : key(k) {} // key constructor
-    node(int k, V v) : key(k), value(v) {} // key+value ctor
-    node(int k, node<V,X>& p) : key(k), parent(p) {} // key + parent ctor
-    node(int k, V v, node<V,X>& p) : key(k), value(v), parent(p) {} // 3 arg ctor
+    node(V v) : value(v) {} // key constructor
+    node(V v, node<V,N_DEGREE>& p) : value(v), parent(p) {} // 2 arg ctor
 
-    const int getKey() { return key; }
-    const V& getValue() { return value; }
-    const node<V,X>& getParent() { return *parent; }
-    const auto getChildren() { return children.begin(); }
-    const auto& getChild(int i) { return children[x]; }
-    bool hasChildren()
-    {
-        for(auto i : children) if(i!=nullptr) return true;
-        return false;
+    V getValue() { return value; }
+    node<V,N_DEGREE>& getParent() 
+    {   
+        try { 
+            if(parent==nullptr) throw "This node has no parent.\n";
+            return *parent; 
+        }
+        catch(const char* exception) {
+            std::cerr << exception;
+        }
     }
-    void setKey(int k) { key = k; }
-    void setValue(V v) { value = v; }
-    void setParent(node<K,V,X>& p) { parent = p; }
-    void setChild(int i, node<K,V,X>& c) { children[i] = c; }
 
-    virtual ~node();
-}
+    auto getChildren() { return children; }
+
+    auto& getChild(int i) 
+    { 
+        try {
+            if(children[i]==nullptr) throw "This child does not exist.\n";
+            return children[i]; 
+        }
+        catch(const char* exception) {
+            std::cerr << exception;
+        }
+    }
+
+    int numChildren()
+    {
+        int c = 0;
+        auto i = std::begin(getChildren());
+        auto end_i = std::end(getChildren());
+        while(i++ != end_i)
+            if(i!=nullptr) ++c;
+        return c;
+    }
+
+    bool hasChildren() { return numChildren()!=0; }
+
+    void setValue(V v) { value = v; }
+    auto replaceValue(V d)
+    {
+        auto current = getValue();
+        setValue(d);
+        return current;
+    }
+    void setParent(node<V,N_DEGREE>& p) { parent = p; }
+    void setChild(int i, node<V,N_DEGREE>& c) { children[i] = c; }
+    
+    ~node();
+
+};
 
 } // namespace tools
 #endif
